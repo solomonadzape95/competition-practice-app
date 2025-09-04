@@ -169,7 +169,7 @@ export function QuestionDisplay({
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm mt-1">
                       {letter}
                     </span>
-                    <span className="text-base leading-relaxed break-words overflow-wrap-anywhere">{option}</span>
+                    <span className="text-base leading-relaxed break-words max-w-full">{option}</span>
                   </span>
                 </Button>
               )
