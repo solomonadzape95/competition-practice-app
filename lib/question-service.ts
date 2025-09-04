@@ -1,11 +1,20 @@
 import { prisma } from "./prisma"
-import type { Topic, Question, PracticeSessionConfig } from "./types"
+import { Topic } from "./types"
+import type { Question, PracticeSessionConfig } from "./types"
 
 export class QuestionService {
   static async getRandomQuestions(topics: Topic[], count = 30, difficulty?: string): Promise<Question[]> {
+    // When STATISTICS is selected, also include DATA_ANALYSIS questions
+    const expandedTopics = topics.flatMap(topic => {
+      if (topic === "STATISTICS") {
+        return ["STATISTICS", "DATA_ANALYSIS"]
+      }
+      return [topic]
+    })
+
     const whereClause: any = {
       topic: {
-        in: topics,
+        in: expandedTopics,
       },
     }
 
@@ -49,10 +58,18 @@ export class QuestionService {
   }
 
   static async createPracticeSession(userId: string, config: PracticeSessionConfig) {
+    // When STATISTICS is selected, store both STATISTICS and DATA_ANALYSIS
+    const dbTopics = config.topics.flatMap(topic => {
+      if (topic === "STATISTICS") {
+        return ["STATISTICS", "DATA_ANALYSIS"]
+      }
+      return [topic]
+    })
+
     const session = await prisma.practiceSession.create({
       data: {
         userId,
-        topics: config.topics,
+        topics: dbTopics,
         timeLimit: config.timeLimit,
         score: 0,
         accuracy: 0,
@@ -108,11 +125,16 @@ export class QuestionService {
       },
     })
 
-    // Calculate topic breakdown
+    // Calculate topic breakdown (merge STATISTICS and DATA_ANALYSIS)
     const topicBreakdown: Record<string, { correct: number; total: number }> = {}
 
     answers.forEach((answer: { question: { topic: any }; isCorrect: any }) => {
-      const topic = answer.question.topic
+      let topic = answer.question.topic
+      // Merge STATISTICS and DATA_ANALYSIS into STATISTICS for display
+      if (topic === "STATISTICS" || topic === "DATA_ANALYSIS") {
+        topic = "STATISTICS"
+      }
+      
       if (!topicBreakdown[topic]) {
         topicBreakdown[topic] = { correct: 0, total: 0 }
       }
@@ -144,8 +166,8 @@ export class QuestionService {
 
   static getTopicDisplayName(topic: Topic): string {
     const displayNames: Record<Topic, string> = {
-      STATISTICS: "Statistics",
-      DATA_ANALYSIS: "Data Analysis",
+      STATISTICS: "Statistics & Data Analysis",
+      DATA_ANALYSIS: "Statistics & Data Analysis", 
       GENERAL_KNOWLEDGE: "General Knowledge",
       VERBAL_REASONING: "Verbal Reasoning",
       APPLIED_MATH: "Applied Math",

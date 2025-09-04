@@ -31,24 +31,21 @@ export default function PracticePage() {
 
     const fetchSessionData = async () => {
       try {
-        // In a real implementation, you'd fetch session data from an API
-        // For now, we'll simulate this with the questions we have
-        const response = await fetch(
-          `/api/questions?topics=STATISTICS,DATA_ANALYSIS,APPLIED_MATH,VERBAL_REASONING,GENERAL_KNOWLEDGE&count=30`,
-        )
+        const response = await fetch(`/api/practice/session?sessionId=${sessionId}`)
 
         if (!response.ok) {
-          throw new Error("Failed to fetch questions")
+          throw new Error("Failed to fetch session data")
         }
 
         const data = await response.json()
         setQuestions(
           data.questions.map((q: any) => ({
             ...q,
-            timeRemaining: timeLimit,
+            timeRemaining: data.timeLimit,
             answered: false,
           })),
         )
+        setTimeLimit(data.timeLimit)
         setIsLoading(false)
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred")
@@ -57,7 +54,7 @@ export default function PracticePage() {
     }
 
     fetchSessionData()
-  }, [sessionId, status, timeLimit])
+  }, [sessionId, status])
 
   if (status === "loading" || isLoading) {
     return (

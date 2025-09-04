@@ -133,7 +133,7 @@ export function QuestionDisplay({
               />
             )}
           </div>
-          <span className={`text-2xl font-mono font-bold ${getTimeColor(timeRemaining)}`}>
+          <span className={`text-4xl font-mono font-bold ${getTimeColor(timeRemaining)}`}>
             {formatTime(timeRemaining)}
           </span>
         </div>
@@ -154,7 +154,7 @@ export function QuestionDisplay({
           </h1>
 
           {/* Answer Options */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {question.options.map((option, index) => {
               const letter = String.fromCharCode(65 + index) // A, B, C, D
               return (
@@ -162,14 +162,14 @@ export function QuestionDisplay({
                   key={letter}
                   variant="outline"
                   size="lg"
-                  className="h-auto p-6 text-left justify-start hover:bg-accent hover:border-accent-foreground/20 transition-all duration-200 bg-transparent"
+                  className="h-auto p-4 text-left justify-start hover:bg-accent hover:border-accent-foreground/20 transition-all duration-200 bg-transparent min-h-[80px]"
                   onClick={() => onAnswerSelect(letter)}
                 >
-                  <span className="flex items-center gap-4 w-full">
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm">
+                  <span className="flex items-start gap-4 w-full">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm mt-1">
                       {letter}
                     </span>
-                    <span className="text-base">{option}</span>
+                    <span className="text-base leading-relaxed break-words overflow-wrap-anywhere">{option}</span>
                   </span>
                 </Button>
               )

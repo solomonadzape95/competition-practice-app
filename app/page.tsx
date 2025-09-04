@@ -14,8 +14,7 @@ import Link from "next/link"
 import type { Topic } from "@/lib/types"
 
 const TOPICS: { value: Topic; label: string; description: string }[] = [
-  { value: "STATISTICS", label: "Statistics", description: "Mean, median, distributions, hypothesis testing" },
-  { value: "DATA_ANALYSIS", label: "Data Analysis", description: "Charts, correlations, data cleaning" },
+  { value: "STATISTICS", label: "Statistics & Data Analysis", description: "Mean, median, distributions, charts, correlations, hypothesis testing" },
   { value: "APPLIED_MATH", label: "Applied Math", description: "Calculus, algebra, mathematical functions" },
   { value: "VERBAL_REASONING", label: "Verbal Reasoning", description: "Vocabulary, analogies, comprehension" },
   { value: "GENERAL_KNOWLEDGE", label: "General Knowledge", description: "Science, history, current events" },

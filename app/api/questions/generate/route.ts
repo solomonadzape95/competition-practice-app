@@ -15,7 +15,7 @@ interface ExternalQuestionResponse {
   }>
 }
 
-const categoryMap: Record<ExternalCategory, { topic: "APPLIED_MATH" | "STATISTICS" | "VERBAL_REASONING" | "GENERAL_KNOWLEDGE" }> = {
+const categoryMap: Record<ExternalCategory, { topic: "APPLIED_MATH" | "STATISTICS" | "DATA_ANALYSIS" | "VERBAL_REASONING" | "GENERAL_KNOWLEDGE" }> = {
   applied_math: { topic: "APPLIED_MATH" },
   statistics: { topic: "STATISTICS" },
   verbal_reasoning: { topic: "VERBAL_REASONING" },
